@@ -1,17 +1,29 @@
-name: Primeiro workflow
-on: push
+name: Java CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  job1-hello:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
+
     steps:
-      - name: Imprimir mensagem
-        run: echo "Olá, Mundo"
-  job2-goodbye:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step 1 - Sequencia de instruções
-        run: |
-          echo "Uma nova instrução"
-          ls
-      - name: Step 2 - Imprimir mensagem
-        run: echo "Até logo!"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '23'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Run tests
+        run: mvn test
