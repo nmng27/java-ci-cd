@@ -1,5 +1,5 @@
+name: Primeiro workflow
 on: push
-
 jobs:
   job1-hello:
     runs-on: ubuntu-latest
